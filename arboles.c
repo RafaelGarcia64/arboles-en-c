@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct nodo
-{
+typedef struct nodo{
     int valor;
     struct nodo *izdo;
     struct nodo *drcho;
@@ -11,8 +10,7 @@ typedef struct nodo
 
 typedef Nodo arbol;
 
-Nodo *CrearNodo(int valor, Nodo *padre)
-{
+Nodo *CrearNodo(int valor, Nodo *padre){
     Nodo *nuevoNodo = (Nodo *)malloc(sizeof(Nodo));
     nuevoNodo->valor = valor;
     nuevoNodo->izdo = nuevoNodo->drcho = NULL;
@@ -20,172 +18,113 @@ Nodo *CrearNodo(int valor, Nodo *padre)
     return nuevoNodo;
 }
 
-void DestruirNodo(Nodo *nodo)
-{
+void DestruirNodo(Nodo *nodo){
     nodo->izdo = nodo->drcho = NULL;
     free(nodo);
 }
 
-static void InsertarConPadre(Nodo **arbol, Nodo *padre, int valor)
-{
-    if (*arbol == NULL)
-    {
+static void InsertarConPadre(Nodo **arbol, Nodo *padre, int valor){
+    if (*arbol == NULL){
         *arbol = CrearNodo(valor, padre);
     }
-    else
-    {
+    else{
         int valorRaiz = (*arbol)->valor;
-        if (valor < valorRaiz)
-        {
+        if (valor < valorRaiz){
             InsertarConPadre(&(*arbol)->izdo, *arbol, valor);
-        }
-        else
-        {
+        }else{
             InsertarConPadre(&(*arbol)->drcho, *arbol, valor);
         }
     }
 }
 
-void Insertar(Nodo **arbol, int valor)
-{
+void Insertar(Nodo **arbol, int valor){
     InsertarConPadre(arbol, NULL, valor);
 }
 
-int Existe(Nodo *arbol, int valor)
-{
-    if (arbol == NULL)
-    {
+int Existe(Nodo *arbol, int valor){
+    if (arbol == NULL){
         return 0;
-    }
-    else if (arbol->valor == valor)
-    {
+    }else if (arbol->valor == valor){
         return 1;
-    }
-    else if (valor < arbol->valor)
-    {
+    }else if (valor < arbol->valor){
         return Existe(arbol->izdo, valor);
-    }
-    else
-    {
+    }else{
         return Existe(arbol->drcho, valor);
     }
 }
 
-Nodo *Obtener(Nodo *arbol, int valor)
-{
-
-    if (arbol == NULL)
-    {
+Nodo *Obtener(Nodo *arbol, int valor){
+    if (arbol == NULL){
         return NULL;
-    }
-    else if (arbol->valor == valor)
-    {
+    }else if (arbol->valor == valor){
         return arbol;
-    }
-    else if (valor < arbol->valor)
-    {
+    }else if (valor < arbol->valor){
         return Obtener(arbol->izdo, valor);
-    }
-    else
-    {
+    }else{
         return Obtener(arbol->drcho, valor);
     }
 }
 
-static void Reemplazar(Nodo *arbol, Nodo *nuevoNodo)
-{
-    if (arbol->padre)
-    {
-        if (arbol->valor == arbol->padre->izdo->valor)
-        {
+static void Reemplazar(Nodo *arbol, Nodo *nuevoNodo){
+    if (arbol->padre){
+        if (arbol->valor == arbol->padre->izdo->valor){
             arbol->padre->izdo = nuevoNodo;
-        }
-        else if (arbol->valor == arbol->padre->drcho->valor)
-        {
+        }else if (arbol->valor == arbol->padre->drcho->valor){
             arbol->padre->drcho = nuevoNodo;
         }
-        if (nuevoNodo)
-        {
+        if (nuevoNodo){
             nuevoNodo->padre = arbol->padre;
         }
     }
 }
 
-static Nodo *Minimo(Nodo *arbol)
-{
-    if (arbol == NULL)
-    {
+static Nodo *Minimo(Nodo *arbol){
+    if (arbol == NULL){
         return NULL;
-    }
-    if (arbol->izdo)
-    {
+    }if (arbol->izdo){
         return Minimo(arbol->izdo);
-    }
-    else
-    {
+    }else{
         return arbol;
     }
 }
 
-static void EliminarNodo(Nodo *nodoEliminar)
-{
-
-    if (nodoEliminar->izdo && nodoEliminar->drcho)
-    {
+static void EliminarNodo(Nodo *nodoEliminar){
+    if (nodoEliminar->izdo && nodoEliminar->drcho){
         //Tratar elimiar con 2 hijos
         Nodo *minimo = Minimo(nodoEliminar->drcho);
         nodoEliminar->valor = minimo->valor;
         EliminarNodo(minimo);
-    }
-    else if (nodoEliminar->izdo)
-    {
+    }else if (nodoEliminar->izdo){
         //Tratar eliminar con 1 hijo
         Reemplazar(nodoEliminar, nodoEliminar->izdo);
         DestruirNodo(nodoEliminar);
-    }
-    else if (nodoEliminar->drcho)
-    {
+    }else if (nodoEliminar->drcho){
         //Tratar eliminar con 1 hijo
         Reemplazar(nodoEliminar, nodoEliminar->drcho);
         DestruirNodo(nodoEliminar);
-    }
-    else
-    {
+    }else{
         //Tratar eliminar con 0 hijos
         Reemplazar(nodoEliminar, NULL);
         DestruirNodo(nodoEliminar);
     }
 }
 
-void Eliminar(Nodo *arbol, int valor)
-{
-    if (arbol == NULL)
-    {
+void Eliminar(Nodo *arbol, int valor){
+    if (arbol == NULL){
         return;
-    }
-    else if (valor < arbol->valor)
-    {
+    }else if (valor < arbol->valor){
         Eliminar(arbol->izdo, valor);
-    }
-    else if (valor > arbol->valor)
-    {
+    }else if (valor > arbol->valor){
         Eliminar(arbol->drcho, valor);
-    }
-    else
-    {
+    }else{
         EliminarNodo(arbol);
     }
 }
 
-void Preorden(Nodo *arbol)
-{
-
-    if (arbol == NULL)
-    {
+void Preorden(Nodo *arbol){
+    if (arbol == NULL){
         printf(" - ");
-    }
-    else
-    {
+    }else{
         printf("( %d ", arbol->valor);
         Preorden(arbol->izdo);
         Preorden(arbol->drcho);
@@ -193,14 +132,10 @@ void Preorden(Nodo *arbol)
     }
 }
 
-void Inorden(Nodo *arbol)
-{
-    if (arbol == NULL)
-    {
+void Inorden(Nodo *arbol){
+    if (arbol == NULL){
         printf(" - ");
-    }
-    else
-    {
+    }else{
         printf("( ");
         Inorden(arbol->izdo);
         printf(" %d ", arbol->valor);
@@ -209,15 +144,10 @@ void Inorden(Nodo *arbol)
     }
 }
 
-void Postorden(Nodo *arbol)
-{
-
-    if (arbol == NULL)
-    {
+void Postorden(Nodo *arbol){
+    if (arbol == NULL){
         printf(" - ");
-    }
-    else
-    {
+    }else{
         printf("( ");
         Postorden(arbol->izdo);
         Postorden(arbol->drcho);
@@ -225,19 +155,16 @@ void Postorden(Nodo *arbol)
     }
 }
 
-int main(void)
-{
+int main(void){
     Nodo *arbol = NULL;
-    /*Insertar(&arbol, 5);    Inorden(arbol); printf("\n");
+    Insertar(&arbol, 5);    Inorden(arbol); printf("\n");
     Insertar(&arbol, 10);   Inorden(arbol); printf("\n");
     Insertar(&arbol, 4);    Inorden(arbol); printf("\n");
     Insertar(&arbol, 9);    Inorden(arbol); printf("\n");
     Insertar(&arbol, 15);   Inorden(arbol); printf("\n");
     Insertar(&arbol, 20);   Inorden(arbol); printf("\n");
     Insertar(&arbol, 2);    Inorden(arbol); printf("\n");
-
     Eliminar(arbol,4);  Inorden(arbol); printf("\n");
     Eliminar(arbol,15);  Inorden(arbol); printf("\n");
     Eliminar(arbol,5);  Inorden(arbol); printf("\n");
-    */
 }
