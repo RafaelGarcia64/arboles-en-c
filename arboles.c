@@ -12,4 +12,7 @@ typedef Nodo arbol;
 
 Nodo* CrearNodo(int valor){
     Nodo* nuevoNodo = (Nodo *) malloc (sizeof(Nodo)); 
+    nuevoNodo->valor = valor;
+    nuevoNodo->izdo = nuevoNodo->drcho = NULL;
+    return nuevoNodo;
 }
