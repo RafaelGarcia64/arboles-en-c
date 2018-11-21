@@ -10,7 +10,7 @@ typedef struct nodo
 
 typedef Nodo arbol;
 
-Nodo* CrearNodo(int valor)
+Nodo *CrearNodo(int valor)
 {
     Nodo *nuevoNodo = (Nodo *)malloc(sizeof(Nodo));
     nuevoNodo->valor = valor;
@@ -18,12 +18,12 @@ Nodo* CrearNodo(int valor)
     return nuevoNodo;
 }
 
-void DestruirNodo(Nodo* nodo)
+void DestruirNodo(Nodo *nodo)
 {
     nodo->izdo = nodo->drcho = NULL;
     free(nodo);
 }
-void Insertar(Nodo** arbol, int valor)
+void Insertar(Nodo **arbol, int valor)
 {
 
     if (*arbol == NULL)
@@ -44,7 +44,7 @@ void Insertar(Nodo** arbol, int valor)
     }
 }
 
-int Existe(Nodo* arbol, int valor)
+int Existe(Nodo *arbol, int valor)
 {
     if (arbol == NULL)
     {
@@ -64,7 +64,7 @@ int Existe(Nodo* arbol, int valor)
     }
 }
 
-void DeterminarExistencia(Nodo* arbol, int valor)
+void DeterminarExistencia(Nodo *arbol, int valor)
 {
 
     if (Existe(arbol, valor))
@@ -79,13 +79,13 @@ void DeterminarExistencia(Nodo* arbol, int valor)
 
 int main(void)
 {
-    Nodo* arbol = NULL;
+    Nodo *arbol = NULL;
     Insertar(&arbol, 5);
     Insertar(&arbol, 10);
     Insertar(&arbol, 4);
     Insertar(&arbol, 9);
     Insertar(&arbol, 15);
-    DeterminarExistencia(arbol,10);
-    DeterminarExistencia(arbol,3);
-    DeterminarExistencia(arbol,9);
+    DeterminarExistencia(arbol, 10);
+    DeterminarExistencia(arbol, 3);
+    DeterminarExistencia(arbol, 9);
 }
