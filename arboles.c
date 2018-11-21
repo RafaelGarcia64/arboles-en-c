@@ -25,7 +25,6 @@ void DestruirNodo(Nodo *nodo)
 }
 void Insertar(Nodo **arbol, int valor)
 {
-
     if (*arbol == NULL)
     {
         *arbol = CrearNodo(valor);
@@ -66,7 +65,6 @@ int Existe(Nodo *arbol, int valor)
 
 void DeterminarExistencia(Nodo *arbol, int valor)
 {
-
     if (Existe(arbol, valor))
     {
         printf("El nodo %d existe en el arbol.\n", valor);
@@ -77,15 +75,63 @@ void DeterminarExistencia(Nodo *arbol, int valor)
     }
 }
 
+void Preorden(Nodo *arbol)
+{
+
+    if (arbol == NULL)
+    {
+        printf(" - ");
+    }
+    else
+    {
+        printf("( %d ", arbol->valor);
+        Preorden(arbol->izdo);
+        Preorden(arbol->drcho);
+        printf(" )");
+    }
+}
+
+void Inorden(Nodo *arbol)
+{
+    if (arbol == NULL)
+    {
+        printf(" - ");
+    }
+    else
+    {
+        printf("( ");
+        Inorden(arbol->izdo);
+        printf(" %d ", arbol->valor);
+        Inorden(arbol->drcho);
+        printf(" )");
+    }
+}
+
+void Postorden(Nodo *arbol)
+{
+
+    if (arbol == NULL)
+    {
+        printf(" - ");
+    }
+    else
+    {
+        printf("( ");
+        Postorden(arbol->izdo);
+        Postorden(arbol->drcho);
+        printf(" %d )", arbol->valor);
+    }
+}
+
 int main(void)
 {
     Nodo *arbol = NULL;
-    Insertar(&arbol, 5);
-    Insertar(&arbol, 10);
-    Insertar(&arbol, 4);
-    Insertar(&arbol, 9);
-    Insertar(&arbol, 15);
-    DeterminarExistencia(arbol, 10);
-    DeterminarExistencia(arbol, 3);
-    DeterminarExistencia(arbol, 9);
+    Insertar(&arbol, 5);    Postorden(arbol); printf("\n");
+    Insertar(&arbol, 10);   Postorden(arbol); printf("\n");
+    Insertar(&arbol, 4);    Postorden(arbol); printf("\n");
+    Insertar(&arbol, 9);    Postorden(arbol); printf("\n");
+    Insertar(&arbol, 15);   Postorden(arbol); printf("\n");
+    //DeterminarExistencia(arbol, 10);
+    //DeterminarExistencia(arbol, 3);
+    //DeterminarExistencia(arbol, 9);
 }
