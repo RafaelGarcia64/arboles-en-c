@@ -30,7 +30,7 @@ void DestruirNodo(Nodo *nodo){
     free(nodo);
 }
 
-//Metodo de apoyo creado de forma recursiva un nuevo nodo
+//Funcion de apoyo creado de forma recursiva un nuevo nodo
 //ademas que la funcion evalua en que lugar de el arbol 
 //puede ser insertado el nuevo nodo y si un nodo provehido esta vacio
 static void InsertarConPadre(Nodo **arbol, Nodo *padre, int valor){
@@ -79,6 +79,10 @@ Nodo *Obtener(Nodo *arbol, int valor){
     }
 }
 
+//Funcion para reemplazar un nodo en un arbol especificado
+//la funcion verifica que exista un pdre para el arbol proporcionado
+//y si existe padre procede a verificar en donde lo reemplaza y hace
+//la accion de reemplazar
 static void Reemplazar(Nodo *arbol, Nodo *nuevoNodo){
     if (arbol->padre){
         if (arbol->valor == arbol->padre->izdo->valor){
@@ -92,6 +96,8 @@ static void Reemplazar(Nodo *arbol, Nodo *nuevoNodo){
     }
 }
 
+//Funcion de apoyo para la funcion de eliminarNodo
+//Esta funcion devuelve el menor valor de el arbol
 static Nodo *Minimo(Nodo *arbol){
     if (arbol == NULL){
         return NULL;
@@ -102,6 +108,9 @@ static Nodo *Minimo(Nodo *arbol){
     }
 }
 
+//Funcion de apoyo para la funcion en el cual se le proporciona 
+//el nodo a eliminar y porcede a eliminarlo y dejar a sus hijos 
+//si es que existen 
 static void EliminarNodo(Nodo *nodoEliminar){
     if (nodoEliminar->izdo && nodoEliminar->drcho){
         //Tratar elimiar con 2 hijos
@@ -123,6 +132,7 @@ static void EliminarNodo(Nodo *nodoEliminar){
     }
 }
 
+//Funcion en el cual se elimina un nodo a partir de su funcion de apoyo
 void Eliminar(Nodo *arbol, int valor){
     if (arbol == NULL){
         return;
@@ -135,6 +145,8 @@ void Eliminar(Nodo *arbol, int valor){
     }
 }
 
+//Funcion en la cual se imprime el arbol en forma de 
+//preorden
 void Preorden(Nodo *arbol){
     if (arbol == NULL){
         printf(" - ");
@@ -146,6 +158,8 @@ void Preorden(Nodo *arbol){
     }
 }
 
+//Funcion en la cual se imprime el arbol en forma de 
+//inorden
 void Inorden(Nodo *arbol){
     if (arbol == NULL){
         printf(" - ");
@@ -158,6 +172,8 @@ void Inorden(Nodo *arbol){
     }
 }
 
+//Funcion en la cual se imprime el arbol en forma de 
+//postorden
 void Postorden(Nodo *arbol){
     if (arbol == NULL){
         printf(" - ");
@@ -169,6 +185,7 @@ void Postorden(Nodo *arbol){
     }
 }
 
+//Funcion main con ejemplos de insercion, eliminacion e impresion de datos
 int main(void){
     Nodo *arbol = NULL;
     Insertar(&arbol, 5);    Inorden(arbol); printf("\n");
