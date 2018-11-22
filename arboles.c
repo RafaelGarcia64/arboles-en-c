@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//Definicon de la estructura arbol
 typedef struct nodo{
     int valor;
     struct nodo *izdo;
@@ -8,8 +9,12 @@ typedef struct nodo{
     struct nodo *padre;
 } Nodo;
 
+//Definicion de nombre alternativo a la estructura
 typedef Nodo arbol;
 
+//Funcion para crear un nodo, funcion creada de forma 
+//recursiva para poder usarse en cualquier parte de el arbol
+//nodos hijos igualados a nul y preparados para generar una nueva rama
 Nodo *CrearNodo(int valor, Nodo *padre){
     Nodo *nuevoNodo = (Nodo *)malloc(sizeof(Nodo));
     nuevoNodo->valor = valor;
@@ -18,11 +23,16 @@ Nodo *CrearNodo(int valor, Nodo *padre){
     return nuevoNodo;
 }
 
+//Funcion para destruir un nodo, primero vaciando sus hijos y luego 
+//liberando la memoria que usaba el nodo
 void DestruirNodo(Nodo *nodo){
     nodo->izdo = nodo->drcho = NULL;
     free(nodo);
 }
 
+//Metodo de apoyo creado de forma recursiva un nuevo nodo
+//ademas que la funcion evalua en que lugar de el arbol 
+//puede ser insertado el nuevo nodo y si un nodo provehido esta vacio
 static void InsertarConPadre(Nodo **arbol, Nodo *padre, int valor){
     if (*arbol == NULL){
         *arbol = CrearNodo(valor, padre);
@@ -37,10 +47,13 @@ static void InsertarConPadre(Nodo **arbol, Nodo *padre, int valor){
     }
 }
 
+//Funcion para agregar un nuevo nodo al arbol
 void Insertar(Nodo **arbol, int valor){
     InsertarConPadre(arbol, NULL, valor);
 }
 
+//Funcion para recorrer un arbol de forma optima y recursiva
+//y devolviendo una respuesta si existe el elemento solicitado
 int Existe(Nodo *arbol, int valor){
     if (arbol == NULL){
         return 0;
@@ -53,6 +66,7 @@ int Existe(Nodo *arbol, int valor){
     }
 }
 
+//Funcion para obtener las ramas de un nodo de forma recursiva
 Nodo *Obtener(Nodo *arbol, int valor){
     if (arbol == NULL){
         return NULL;
